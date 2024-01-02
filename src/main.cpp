@@ -128,15 +128,26 @@ void setup()
 void loop()
 {
   Serial.println("Enter current hour (5-24): ");
-  while (!Serial.available()) {
+  while (Serial.available() == 0) {
     // Wait for user input
   }
   int currentHour = Serial.parseInt();
+  while (Serial.read() != '\n') {
+    // Wait for user to press enter
+  }
+  Serial.print("Current Hour: ");
+  Serial.println(currentHour);
+
   Serial.println("Enter room volume (0-80): ");
-  while (!Serial.available()) {
+  while (Serial.available() == 0) {
     // Wait for user input
   }
   int jml = Serial.parseInt();
+  while (Serial.read() != '\n') {
+    // Wait for user to press enter
+  }
+  Serial.print("Room Volume: ");
+  Serial.println(jml);
 
   // Fuzzy inference for LED brightness
   fuzzyLED->setInput(3, currentHour);
@@ -147,4 +158,8 @@ void loop()
   // Control the LED brightness
   analogWrite(LED, ledBrightness);
 
+  // Display the result
+  Serial.print("LED Brightness: ");
+  Serial.println(ledBrightness);
+  Serial.println("====================================");
 }
